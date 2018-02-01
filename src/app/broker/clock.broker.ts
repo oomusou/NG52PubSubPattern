@@ -5,6 +5,7 @@ import { SubscriberInterface } from '../interface/subscriber.interface';
 import { Clock3sPublisher } from '../publisher/clock3s/clock3s.publisher';
 import { SubjectEnum } from '../enum/subject.enum';
 import { SubjectSubscriber } from '../model/subject-subscriber.model';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ClockBroker implements BrokerInterface {
@@ -39,9 +40,12 @@ export class ClockBroker implements BrokerInterface {
   }
 
   unsubscribe(subject: SubjectEnum, subscriber: SubscriberInterface): void {
-    this.subscribers = this.subscribers.filter(
-      item => !(item.subject === subject && item.subscriber === subscriber)
-    );
+    const subjectSubscriber: SubjectSubscriber = {
+      subject: subject,
+      subscriber: subscriber
+    };
+
+    _.remove(this.subscribers, subjectSubscriber);
   }
 
   private publishToClock3sSubscriber(date: Date) {
