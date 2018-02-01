@@ -28,4 +28,8 @@ export class DigitalClock3sComponent implements SubscriberInterface, OnInit, OnD
   update(date: Date): void {
     this.now = date;
   }
+
+  onStopClick() {
+    this.clockBroker.unsubscribe(SubjectEnum.Clock3s, this);
+  }
 }
