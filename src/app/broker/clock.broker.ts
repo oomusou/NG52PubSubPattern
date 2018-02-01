@@ -39,15 +39,9 @@ export class ClockBroker implements BrokerInterface {
   }
 
   unsubscribe(subject: SubjectEnum, subscriber: SubscriberInterface): void {
-    const index = this.subscribers.findIndex(
-      item => item.subject === subject && item.subscriber === subscriber
+    this.subscribers = this.subscribers.filter(
+      item => !(item.subject === subject && item.subscriber === subscriber)
     );
-
-    if (index === -1) {
-      return;
-    }
-
-    this.subscribers.splice(index, 1);
   }
 
   private publishToClock3sSubscriber(date: Date) {
